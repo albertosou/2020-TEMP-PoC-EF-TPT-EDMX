@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="afead400c05f4c16bd1d3cbb87af48fe" Name="Diagram1">
+        <EntityTypeShape EntityType="ModelTPT.Operation" Width="2.375" PointX="3.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelTPT.OperationExport" Width="2.375" PointX="2.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelTPT.OperationFile" Width="2.375" PointX="7" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelTPT.OperationImport" Width="2.375" PointX="6.125" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="ModelTPT.FK_OperationFile_Operation" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelTPT.FK_OperationImport_OperationExport" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="ModelTPT.OperationImport" />
+        <InheritanceConnector EntityType="ModelTPT.OperationExport" />
+        <InheritanceConnector EntityType="ModelTPT.OperationExport" />
+        <InheritanceConnector EntityType="ModelTPT.OperationImport" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

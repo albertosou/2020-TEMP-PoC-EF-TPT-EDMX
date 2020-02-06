@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperationExport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExportBasePath" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperationFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OperationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperationImport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OperationExportId" Type="uniqueidentifier" />
+          <Property Name="ImportBasePath" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OperationExport_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="1" />
+          <End Role="OperationExport" Type="Self.OperationExport" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationExport">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationFile_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="1" />
+          <End Role="OperationFile" Type="Self.OperationFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationFile">
+              <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationImport_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="1" />
+          <End Role="OperationImport" Type="Self.OperationImport" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationImport">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationImport_OperationExport">
+          <End Role="OperationExport" Type="Self.OperationExport" Multiplicity="0..1" />
+          <End Role="OperationImport" Type="Self.OperationImport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationExport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationImport">
+              <PropertyRef Name="OperationExportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationExport" EntityType="Self.OperationExport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationFile" EntityType="Self.OperationFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationImport" EntityType="Self.OperationImport" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_OperationExport_Operation" Association="Self.FK_OperationExport_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationExport" EntitySet="OperationExport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationFile_Operation" Association="Self.FK_OperationFile_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationFile" EntitySet="OperationFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationImport_Operation" Association="Self.FK_OperationImport_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationImport" EntitySet="OperationImport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationImport_OperationExport" Association="Self.FK_OperationImport_OperationExport">
+            <End Role="OperationExport" EntitySet="OperationExport" />
+            <End Role="OperationImport" EntitySet="OperationImport" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelTPT" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OperationFile" Relationship="Self.FK_OperationFile_Operation" FromRole="Operation" ToRole="OperationFile" />
+        </EntityType>
+        <EntityType Name="OperationExport" BaseType="ModelTPT.Operation">
+          <Property Name="ExportBasePath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OperationImport" Relationship="Self.FK_OperationImport_OperationExport" FromRole="OperationExport" ToRole="OperationImport" />
+        </EntityType>
+        <EntityType Name="OperationFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OperationId" Type="Guid" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Operation" Relationship="Self.FK_OperationFile_Operation" FromRole="OperationFile" ToRole="Operation" />
+        </EntityType>
+        <EntityType Name="OperationImport" BaseType="ModelTPT.Operation">
+          <Property Name="OperationExportId" Type="Guid" />
+          <Property Name="ImportBasePath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OperationExport" Relationship="Self.FK_OperationImport_OperationExport" FromRole="OperationImport" ToRole="OperationExport" />
+        </EntityType>
+        <Association Name="FK_OperationFile_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="1" />
+          <End Role="OperationFile" Type="Self.OperationFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationFile">
+              <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationImport_OperationExport">
+          <End Role="OperationExport" Type="Self.OperationExport" Multiplicity="0..1" />
+          <End Role="OperationImport" Type="Self.OperationImport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationExport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationImport">
+              <PropertyRef Name="OperationExportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="Operation" EntityType="Self.Operation" />
+          <EntitySet Name="OperationFile" EntityType="Self.OperationFile" />
+          <AssociationSet Name="FK_OperationFile_Operation" Association="Self.FK_OperationFile_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationFile" EntitySet="OperationFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationImport_OperationExport" Association="Self.FK_OperationImport_OperationExport">
+            <End Role="OperationExport" EntitySet="Operation" />
+            <End Role="OperationImport" EntitySet="Operation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Operation">
+            <EntityTypeMapping TypeName="IsTypeOf(ModelTPT.Operation)">
+              <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(ModelTPT.OperationImport)">
+              <MappingFragment StoreEntitySet="OperationImport">
+                <ScalarProperty Name="ImportBasePath" ColumnName="ImportBasePath" />
+                <ScalarProperty Name="OperationExportId" ColumnName="OperationExportId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(ModelTPT.OperationExport)">
+              <MappingFragment StoreEntitySet="OperationExport">
+                <ScalarProperty Name="ExportBasePath" ColumnName="ExportBasePath" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationFile">
+            <EntityTypeMapping TypeName="ModelTPT.OperationFile">
+              <MappingFragment StoreEntitySet="OperationFile">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
